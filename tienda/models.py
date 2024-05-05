@@ -4,12 +4,6 @@ from django.urls import reverse
 
 
 
-class Avion(models.Model):
-    nombre = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.nombre
-
 
 class Producto(models.Model):
     nombre_producto = models.CharField(max_length=200, unique=True)
@@ -22,6 +16,7 @@ class Producto(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
     
+        
     def get_url(self):
         return reverse('producto_detalle', args=[self.categoria.slug, self.slug])
     
@@ -31,10 +26,17 @@ class Producto(models.Model):
 
 
 
+class Avion(models.Model):
+    nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+
+
 class StockAvion(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     avion = models.ForeignKey(Avion, on_delete=models.CASCADE)
     cantidad_disponible = models.IntegerField(default=0)
 
     class Meta:
-        unique_together = ('producto', 'avion')  # Garantiza que no haya duplicados
+        unique_together = ('producto', 'avion')  

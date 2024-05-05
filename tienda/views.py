@@ -4,14 +4,16 @@ from categorias.models import Categoria
 
 
 
-def producto_detalle(request, category_slug, product_slug):
-    single_product = Producto.objects.get(categoria__slug=category_slug, slug=product_slug)
+def producto_detalle(request, categoria_slug, producto_slug):
+    categoria = get_object_or_404(Categoria, slug=categoria_slug)
+    single_product = get_object_or_404(Producto, categoria=categoria, slug=producto_slug)
 
     context = {
         'single_product': single_product,
+        'categoria': categoria,
     }
 
-    return render(request, 'store/producto_detalle.html', context)
+    return render(request, 'tienda/producto_detalle.html', context)
 
 
 def tienda(request, categoria_slug=None):
