@@ -1,0 +1,36 @@
+{% extends 'administracion/administracion.html' %}
+
+{% block main_content %}
+<section class="section-content padding-x">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Lista de Aviones</h2>
+                <a href="{% url 'crear_avion' %}" class="btn btn-success mb-3">Nuevo Avión</a>
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for avion in aviones %}
+                            <tr>
+                                <td>{{ avion.nombre }}</td>
+                                <td>{{ avion.descripcion }}</td>
+                                <td>
+                                    <a href="{% url 'editar_avion' avion.pk %}" class="btn btn-primary btn-sm">Editar</a>
+                                    <a href="{% url 'eliminar_avion' avion.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <a href="{% url 'administracion' %}" class="btn btn-secondary">Volver a Administración</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,80 @@
+/* Estilos personalizados para la tienda */
+
+/* Estilo para el encabezado de sección */
+.section-header {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+}
+
+/* Estilo para el título en la sección de productos populares */
+.section-name .section-title {
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Estilo para los enlaces de las categorías */
+.list-menu li a {
+    color: #333;
+    font-size: 16px;
+}
+
+.list-menu li a:hover {
+    color: #007bff;
+}
+
+/* Estilo para la paginación */
+.pagination {
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination .page-item .page-link {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+}
+
+/* Estilo para los productos */
+.card-product-grid {
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.card-product-grid:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-product-grid .img-wrap img {
+    width: 100%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.card-product-grid .info-wrap {
+    padding: 15px;
+}
+
+.card-product-grid .title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.card-product-grid .price {
+    font-size: 16px;
+    color: #007bff;
+    font-weight: bold;
+}

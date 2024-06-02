@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ producto.nombre_producto }}</h2>
+  <p>{{ producto.descripcion }}</p>
+  <p>Precio: {{ producto.precio }}</p>
+  <p>Categoría: {{ producto.categoria.nombre_categoria }}</p>
+  <p><img src="{{ producto.imagen.url }}" alt="{{ producto.nombre_producto }}"></p>
+  <p><a href="{% url 'producto_update' producto.pk %}">Editar</a></p>
+  <p><a href="{% url 'producto_delete' producto.pk %}">Eliminar</a></p>
+{% endblock %}

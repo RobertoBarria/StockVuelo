@@ -1,21 +1,27 @@
 {% if messages %}
-
-
-
-        <div id="message"  class="container">
-
-            {% for message in messages %}
-
-          <div  {% if message.tags %}    class="alert alert-{{ message.tags }}"  {% endif %}  role="alert">
-              {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} Importante: {% endif %}
-              {{ message }}
-          </div>
-
-            {% endfor %}
-            
-        </div>
-
-
-
-
+<div id="message" class="position-fixed w-50" style="top: 0; z-index: 300;">
+    {% for message in messages %}
+    <div class="alert alert-dismissible fade show m-0" role="alert" style="background-color: rgba(220, 53, 69, 0.8); color: white; font-size: 16px; font-weight: bold;">
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} 
+        <strong>Importante:</strong> 
+        {% endif %}
+        {{ message|safe }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        setTimeout(() => {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach((alert) => {
+                alert.classList.remove('show');
+                alert.classList.add('fade');
+                alert.style.display = 'none';
+            });
+        }, 5000); // 5000 milliseconds = 5 seconds
+    });
+</script>
 {% endif %}

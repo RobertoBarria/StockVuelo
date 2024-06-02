@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Producto, Avion,  StockAvion
+from .models import Producto,  StockAvion
 
 class StockAvionInline(admin.TabularInline):
     model = StockAvion
@@ -14,8 +14,4 @@ class ProductAdmin(admin.ModelAdmin):
         return obj.categoria.nombre_categoria  # Ajusta 'nombre_categoria' al nombre correcto del campo en tu modelo Categoria
     get_categoria.short_description = 'Categoría'
 
-@admin.register(Avion)
-class AvionAdmin(admin.ModelAdmin):
-    list_display = ('nombre',)
 
-admin.site.register(Producto, ProductAdmin)

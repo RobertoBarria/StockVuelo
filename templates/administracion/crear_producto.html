@@ -1,0 +1,47 @@
+{% extends 'administracion/administracion.html' %}
+
+{% block main_content %}
+<section class="section-content padding-x">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Crear Producto</h2>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_nombre_producto">Nombre del Producto:</label>
+                        <input type="text" id="id_nombre_producto" name="nombre_producto" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_descripcion">Descripción:</label>
+                        <textarea id="id_descripcion" name="descripcion" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_precio">Precio:</label>
+                        <input type="number" id="id_precio" name="precio" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_imagen">Imagen:</label>
+                        <input type="file" id="id_imagen" name="imagen" class="form-control-file">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_categoria">Categoría:</label>
+                        <select id="id_categoria" name="categoria" class="form-control" required>
+                            {% for categoria in categorias %}
+                                <option value="{{ categoria.id }}">{{ categoria.nombre_categoria }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a href="{% url 'lista_productos' %}" class="btn btn-secondary">Volver a la Lista de Productos</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

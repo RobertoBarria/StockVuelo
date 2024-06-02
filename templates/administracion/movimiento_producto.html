@@ -1,0 +1,84 @@
+{% extends 'administracion/administracion.html' %}
+
+{% block main_content %}
+<section class="section-content padding-x">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Movimiento de Producto: {{ producto.nombre_producto }}</h2>
+                <hr class="my-2" style="border-top: 2px solid navy;">
+                <div class="col-md-6 offset-md-3">
+                    {% if messages %}
+                        <div>
+                            {% for message in messages %}
+                                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Campo</th>
+                                    <th>Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ form.producto.label }}</td>
+                                    <td>{{ form.producto }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ form.avion_origen.label }}</td>
+                                    <td>{{ form.avion_origen }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ form.stock_origen.label }}</td>
+                                    <td>{{ form.stock_origen }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ form.avion_destino.label }}</td>
+                                    <td>{{ form.avion_destino }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ form.cantidad.label }}</td>
+                                    <td>{{ form.cantidad }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button type="submit" class="btn btn-primary">Mover Producto</button>
+                        <a href="{% url 'lista_productos' %}" class="btn btn-secondary">Volver a la Lista de Productos</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const avionOrigenSelect = document.querySelector('select[name="avion_origen"]');
+        const stockOrigenInput = document.querySelector('input[name="stock_origen"]');
+
+        avionOrigenSelect.addEventListener('change', function () {
+            const avionId = this.value;
+            const productoId = {{ producto.id }};
+            
+            fetch(`/administracion/obtener_stock_origen/?producto_id=${productoId}&avion_id=${avionId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.stock_origen !== undefined) {
+                        stockOrigenInput.value = data.stock_origen;
+                    } else {
+                        stockOrigenInput.value = 0;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    stockOrigenInput.value = 0;
+                });
+        });
+    });
+</script>
+{% endblock %}

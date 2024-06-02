@@ -1,0 +1,48 @@
+{% extends 'administracion/administracion.html' %}
+{% load static %}
+{% block main_content %}
+<section class="section-pagetop nb py-2">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h5 class="display-12 text-left font-weight-bold" style="color: navy;">Movimientos de Productos</h5>
+                <hr class="my-2" style="border-top: 2px solid navy;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-name padding-x-sm">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Avión Origen</th>
+                            <th>Avión Destino</th>
+                            <th>Cantidad</th>
+                            <th>Fecha</th>
+                            <th>Usuario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for movimiento in movimientos %}
+                        <tr>
+                            <td>{{ movimiento.producto.nombre_producto }}</td>
+                            <td>{{ movimiento.avion_origen.nombre }}</td>
+                            <td>{{ movimiento.avion_destino.nombre }}</td>
+                            <td>{{ movimiento.cantidad }}</td>
+                            <td>{{ movimiento.fecha_movimiento }}</td>
+                            <td>{{ movimiento.usuario.username }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <a href="{% url 'administracion' %}" class="btn btn-secondary">Volver a Administración</a>
+    </div>
+</section>
+{% endblock %}

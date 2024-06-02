@@ -1,35 +1,34 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
-from django.contrib.auth.models import BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
-
-# Create your models here.
 class MyAccountManager(BaseUserManager):
-    def create_user(self, Nombre, Apellido, username, email, password=None):
+    def create_user(self, Nombre, Apellido, username, email, password=None, avion=None):
         if not email:
-            raise ValueError('el usuario debe tener un email')
+            raise ValueError('El usuario debe tener un email')
 
         if not username:
-            raise ValueError('el usuario debe tener un username')
+            raise ValueError('El usuario debe tener un username')
 
         user = self.model(
-            email = self.normalize_email(email),
-            username = username,
-            Nombre = Nombre,
-            Apellido = Apellido,
+            email=self.normalize_email(email),
+            username=username,
+            Nombre=Nombre,
+            Apellido=Apellido,
+            avion=avion,
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, Nombre, Apellido, email, username, password):
+    def create_superuser(self, Nombre, Apellido, email, username, password, avion=None):
         user = self.create_user(
-            email = self.normalize_email(email),
-            username = username,
-            password = password,
-            Nombre = Nombre,
-            Apellido = Apellido,
+            email=self.normalize_email(email),
+            username=username,
+            password=password,
+            Nombre=Nombre,
+            Apellido=Apellido,
+            avion=avion,
         )
 
         user.is_admin = True
@@ -39,18 +38,18 @@ class MyAccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
-
-
-
-class Usuario(AbstractBaseUser):
+class Cuenta(AbstractBaseUser):
     Nombre = models.CharField(max_length=50)
     Apellido = models.CharField(max_length=50)
     username = models.CharField(max_length=50, unique=True)
-    email = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(max_length=100, unique=True)
     phone_number = models.CharField(max_length=50)
+    avion = models.ForeignKey('aviones.Avion', on_delete=models.SET_NULL, null=True, blank=True)
+    
 
-    #campos atributos de django
+    es_administrador = models.BooleanField(default=False)
+    es_tripulante = models.BooleanField(default=False)
+
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now_add=True)
     is_admin = models.BooleanField(default=False)
@@ -64,7 +63,7 @@ class Usuario(AbstractBaseUser):
     objects = MyAccountManager()
 
     def full_name(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.Nombre} {self.Apellido}'
 
     def __str__(self):
         return self.email
@@ -74,19 +73,3 @@ class Usuario(AbstractBaseUser):
 
     def has_module_perms(self, add_label):
         return True
-
-
-class PerfilUsuario(models.Model):
-    user = models.OneToOneField(Usuario, on_delete=models.CASCADE)
-    address_line_1 =  models.CharField(blank=True, max_length=100)
-    address_line_2 =  models.CharField(blank=True, max_length=100)
-    profile_picture = models.ImageField(blank=True, upload_to='userprofile')
-    city = models.CharField(blank=True, max_length=20)
-    state = models.CharField(blank=True, max_length=20)
-    country = models.CharField(blank=True, max_length=20)
-
-    def __str__(self):
-        return self.user.first_name
-
-    def full_address(self):
-        return f'{self.address_line_1} {self.address_line_2}'

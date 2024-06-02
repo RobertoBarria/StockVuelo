@@ -1,0 +1,19 @@
+{% extends 'administracion/administracion.html' %}
+
+{% block main_content %}
+<section class="section-content padding-x">
+    <div class="card mx-auto" style="max-width: 520px; margin-top: 40px;">
+        <article class="card-body">
+            <h4 class="card-title mb-4">Editar Categoría</h4>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
+                <a href="{% url 'lista_categorias' %}" class="btn btn-secondary btn-block">Volver a la Lista de Categorías</a>
+            </div>
+            </form>
+        </article>
+    </div>
+</section>
+{% endblock %}

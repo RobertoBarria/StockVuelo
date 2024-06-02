@@ -1,0 +1,36 @@
+{% extends 'administracion/administracion.html' %}
+
+{% block main_content %}
+<section class="section-content padding-x">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Asignar Stock para {{ producto.nombre_producto }}</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Avión</th>
+                                <th>Stock Disponible</th>
+                                <th>Stock Mínimo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for form in forms %}
+                                <tr>
+                                    <td>{{ form.avion.nombre }}</td>
+                                    <td>{{ form.cantidad_disponible }}</td>
+                                    <td>{{ form.cantidad_Minima }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    <a href="{% url 'lista_productos' %}" class="btn btn-secondary">Volver a la Lista de Productos</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

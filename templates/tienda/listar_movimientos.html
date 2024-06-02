@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listar Movimientos</title>
+</head>
+<body>
+    <h1>Movimientos de Productos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Avión de Origen</th>
+                <th>Avión de Destino</th>
+                <th>Cantidad</th>
+                <th>Fecha de Movimiento</th>
+                <th>Usuario</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movimiento in movimientos %}
+            <tr>
+                <td>{{ movimiento.producto.nombre_producto }}</td>
+                <td>{{ movimiento.avion_origen.nombre }}</td>
+                <td>{{ movimiento.avion_destino.nombre }}</td>
+                <td>{{ movimiento.cantidad }}</td>
+                <td>{{ movimiento.fecha_movimiento }}</td>
+                <td>{{ movimiento.usuario.email }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

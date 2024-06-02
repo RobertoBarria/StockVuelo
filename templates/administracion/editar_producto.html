@@ -1,0 +1,19 @@
+{% extends 'administracion/administracion.html' %}
+
+{% block main_content %}
+<section class="section-content padding-x">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Editar Producto</h2>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    <a href="{% url 'lista_productos' %}" class="btn btn-secondary">Volver a la Lista de Productos</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

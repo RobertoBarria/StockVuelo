@@ -1,0 +1,26 @@
+{% extends 'administracion/administracion.html' %}
+
+{% block main_content %}
+<section class="section-content padding-x">
+    <div class="card mx-auto" style="max-width: 520px; margin-top: 40px;">
+        <article class="card-body">
+            <h4 class="card-title mb-4">Crear Categoría</h4>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_nombre_categoria">Nombre de la Categoría</label>
+                    <input type="text" class="form-control" id="id_nombre_categoria" name="nombre_categoria" required>
+                </div>
+                <div class="form-group">
+                    <label for="id_descripcion">Descripción</label>
+                    <textarea class="form-control" id="id_descripcion" name="descripcion"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                <a href="{% url 'lista_categorias' %}" class="btn btn-secondary btn-block">Volver a la Lista de Categorías</a>
+            </div>
+            </form>
+        </article>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="section-pagetop nb py-2">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h5 class="display-12 text-left font-weight-bold" style="color: navy;">Administración</h5>
+        <hr class="my-2" style="border-top: 2px solid navy;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-content padding-y">
+  <div class="container">
+    <div class="row">
+      <aside class="col-md-2">
+        <div class="card mb-3">
+          <article class="filter-group">
+            <header class="card-header">
+              <a href="#" data-toggle="collapse" data-target="#collapseAdministracion" aria-expanded="true" class="">
+                <i class="icon-control fa fa-chevron-down"></i>
+                <h6 class="title">Administración</h6>
+              </a>
+            </header>
+            <div class="filter-content collapse show" id="collapseAdministracion">
+              <div class="card-body">
+                <ul class="list-menu">
+                  <li><a href="{% url 'lista_productos' %}">Productos</a></li>
+                  <li><a href="{% url 'lista_aviones' %}">Aviones</a></li>
+                  <li><a href="{% url 'lista_categorias' %}">Categorías</a></li>
+                  <li><a href="{% url 'lista_usuarios' %}">Usuarios</a></li>
+                  <li><a href="{% url 'lista_movimientos' %}">Movimientos</a></li>
+                </ul>
+              </div>
+            </div>
+          </article>
+        </div>
+      </aside>
+
+      <main class="col-md-9">
+        {% block main_content %}
+        <!-- Aquí se insertará el contenido de las plantillas hijas -->
+        {% endblock %}
+      </main>
+    </div>
+  </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

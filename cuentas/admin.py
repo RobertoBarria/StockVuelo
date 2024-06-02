@@ -1,7 +1,17 @@
 from django.contrib import admin
-from .models import Usuario
-from .models import PerfilUsuario
+from django.contrib.auth.admin import UserAdmin
+from .models import Cuenta
+#from .models import PerfilUsuario
 # Register your models here.
 
-admin.site.register(Usuario)
-admin.site.register(PerfilUsuario)
+class AccountAdmin(UserAdmin):
+    list_display = ('email', 'Nombre','Apellido','username','last_login','date_joined','is_active')
+    list_display_link = ('email', 'Nombre','Apellido')
+    ordering = ('-date_joined',)
+    
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets =  ()
+    
+                      
+admin.site.register(Cuenta,AccountAdmin)
