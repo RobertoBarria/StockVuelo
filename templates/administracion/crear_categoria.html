@@ -1,11 +1,11 @@
 {% extends 'administracion/administracion.html' %}
 
 {% block main_content %}
-<section class="section-content padding-x">
+<section class="section-content padding-x ">
     <div class="card mx-auto" style="max-width: 520px; margin-top: 40px;">
         <article class="card-body">
             <h4 class="card-title mb-4">Crear Categoría</h4>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="id_nombre_categoria">Nombre de la Categoría</label>
@@ -17,8 +17,17 @@
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Guardar</button>
-                <a href="{% url 'lista_categorias' %}" class="btn btn-secondary btn-block">Volver a la Lista de Categorías</a>
-            </div>
+                    <a href="{% url 'lista_categorias' %}" class="btn btn-secondary btn-block">Volver a la Lista de Categorías</a>
+                </div>
+                {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for field, errors in form.errors.items %}
+                                <li>{{ field }}: {{ errors|striptags }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
             </form>
         </article>
     </div>

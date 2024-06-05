@@ -47,3 +47,38 @@ class MovimientoProducto(models.Model):
 
     def __str__(self):
         return f"{self.cantidad} {self.producto.nombre_producto} de {self.avion_origen.nombre} a {self.avion_destino.nombre}"
+    
+class Orden(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    avion = models.ForeignKey(Avion, on_delete=models.CASCADE)
+    fecha_orden = models.DateTimeField(auto_now_add=True)
+    completada = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Orden {self.id} de {self.usuario} para {self.avion}"
+
+class OrdenProducto(models.Model):
+    orden = models.ForeignKey(Orden, related_name='productos', on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.cantidad} x {self.producto.nombre_producto} en la Orden {self.orden.id}"
+    
+class MovimientoHistorial(models.Model):
+    MOVIMIENTO_TIPOS = [
+        ('MO', 'Movimiento por Orden'),
+        ('AS', 'Ajuste Stock'),
+        ('MP', 'Movimiento Producto'),
+    ]
+
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    avion = models.ForeignKey(Avion, on_delete=models.CASCADE)
+    cantidad = models.IntegerField()
+    tipo_movimiento = models.CharField(max_length=2, choices=MOVIMIENTO_TIPOS)
+    observacion = models.CharField(max_length=255)
+    fecha_movimiento = models.DateTimeField(auto_now_add=True)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.get_tipo_movimiento_display()} de {self.cantidad} {self.producto.nombre_producto} en {self.avion.nombre}"

@@ -1,22 +1,32 @@
 {% extends 'administracion/administracion.html' %}
 
 {% block main_content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmar Eliminar Producto</title>
-</head>
-<body>
-    <h1>Confirmar Eliminar Producto</h1>
-    <p>¿Estás seguro que deseas eliminar el producto "{{ producto.nombre_producto }}"?</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Confirmar</button>
-    </form>
-    <a href="{% url 'lista_productos' %}"><button>Volver a la Lista de Productos</button></a>
-</body>
-</html>
+<section class="section-content padding-x">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Eliminar Producto</h2>
+                <p>¿Estás seguro que deseas eliminar el producto <strong>{{ producto.nombre_producto }}</strong>?</p>
+                
+                {% if stocks %}
+                <p>El producto tiene stock en los siguientes aviones:</p>
+                <ul>
+                    {% for stock in stocks %}
+                    <li>{{ stock.avion.nombre }}: {{ stock.cantidad_disponible }} unidades</li>
+                    {% endfor %}
+                </ul>
+                <p>Al eliminar este producto,tambien se eliminarán los stocks mencionados arriba.</p>
+                {% else %}
+                <p>El producto no tiene stock asociado.</p>
+                {% endif %}
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                    <a href="{% url 'lista_productos' %}" class="btn btn-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

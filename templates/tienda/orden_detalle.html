@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="section-content padding-y bg">
+    <div class="container">
+        <h2>Detalles de la Orden #{{ orden.id }}</h2>
+        <p>Fecha: {{ orden.fecha_orden }}</p>
+        <p>Estado: {% if orden.completada %}Completada{% else %}Pendiente{% endif %}</p>
+
+        <h3>Productos en la Orden:</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    {% if not orden.completada %}
+                        <th>Actualizar</th>
+                        <th>Eliminar</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in productos_stock %}
+                    <tr>
+                        <td>{{ item.orden_producto.producto.nombre_producto }}</td>
+                        <td>
+                            {% if not orden.completada %}
+                                <form method="post" action="{% url 'actualizar_cantidad' item.orden_producto.id %}">
+                                    {% csrf_token %}
+                                    <input type="number" name="cantidad" value="{{ item.orden_producto.cantidad }}" min="1" max="{{ item.cantidad_disponible }}" class="form-control" required>
+                            {% else %}
+                                {{ item.orden_producto.cantidad }}
+                            {% endif %}
+                        </td>
+                        {% if not orden.completada %}
+                            <td>
+                                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form method="post" action="{% url 'eliminar_producto' item.orden_producto.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'tienda' %}" class="btn btn-primary">Volver a la tienda</a>
+            {% if not orden.completada %}
+                <form method="post" action="{% url 'cerrar_orden' orden.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success">Finalizar Orden</button>
+                </form>
+                <form method="post" action="{% url 'cancelar_orden' orden.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Cancelar Orden</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

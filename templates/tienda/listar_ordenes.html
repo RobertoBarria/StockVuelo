@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="section-content padding-y bg">
+    <div class="container">
+        <h2>Mis Órdenes</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Detalles</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for orden in ordenes %}
+                    <tr>
+                        <td>{{ orden.id }}</td>
+                        <td>{{ orden.fecha_orden }}</td>
+                        <td>{% if orden.completada %}Completada{% else %}Pendiente{% endif %}</td>
+                        <td><a href="{% url 'orden_detalle' orden.id %}" class="btn btn-info">Ver Detalles</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% endblock %}

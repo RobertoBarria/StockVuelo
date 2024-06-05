@@ -18,11 +18,17 @@
                     <div class="col form-group">
                         <label>Nombre</label>
                         {{ form.Nombre }}
+                        {% if form.Nombre.errors %}
+                            <div class="alert alert-danger">{{ form.Nombre.errors }}</div>
+                        {% endif %}
                     </div> <!-- form-group end.// -->
 
                     <div class="col form-group">
                         <label>Apellido</label>
                         {{ form.Apellido }}
+                        {% if form.Apellido.errors %}
+                            <div class="alert alert-danger">{{ form.Apellido.errors }}</div>
+                        {% endif %}
                     </div> <!-- form-group end.// -->
                 </div> <!-- form-row end.// -->
 
@@ -30,11 +36,17 @@
                     <div class="col form-group">
                         <label>Email</label>
                         {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="alert alert-danger">{{ form.email.errors }}</div>
+                        {% endif %}
                     </div> <!-- form-group end.// -->
 
                     <div class="col form-group">
                         <label>Teléfono</label>
                         {{ form.phone_number }}
+                        {% if form.phone_number.errors %}
+                            <div class="alert alert-danger">{{ form.phone_number.errors }}</div>
+                        {% endif %}
                     </div> <!-- form-group end.// -->
                 </div> <!-- form-row end.// -->
 
@@ -42,27 +54,42 @@
                     <div class="form-group col-md-6">
                         <label>Crear password</label>
                         {{ form.password }}
+                        {% if form.password.errors %}
+                            <div class="alert alert-danger">{{ form.password.errors }}</div>
+                        {% endif %}
                     </div> <!-- form-group end.// --> 
                     <div class="form-group col-md-6">
                         <label>Repetir password</label>
                         {{ form.confirmar_password }}
+                        {% if form.confirmar_password.errors %}
+                            <div class="alert alert-danger">{{ form.confirmar_password.errors }}</div>
+                        {% endif %}
                     </div> <!-- form-group end.// -->  
                 </div>
 
                 <div class="form-group">
                     <label>Asignar Avión</label>
                     {{ form.avion }}
+                    {% if form.avion.errors %}
+                        <div class="alert alert-danger">{{ form.avion.errors }}</div>
+                    {% endif %}
                 </div> <!-- form-group end.// -->
 
                 <div class="form-group">
                     <div class="form-check">
                         <label class="form-check-label">
                             {{ form.es_administrador }} Administrador
+                            {% if form.es_administrador.errors %}
+                                <div class="alert alert-danger">{{ form.es_administrador.errors }}</div>
+                            {% endif %}
                         </label>
                     </div>
                     <div class="form-check">
                         <label class="form-check-label">
                             {{ form.es_tripulante }} Tripulante
+                            {% if form.es_tripulante.errors %}
+                                <div class="alert alert-danger">{{ form.es_tripulante.errors }}</div>
+                            {% endif %}
                         </label>
                     </div>
                 </div> <!-- form-group end.// -->
@@ -71,7 +98,6 @@
                     <button type="submit" class="btn btn-primary btn-block"> Registrar </button>
                     <a href="{% url 'lista_usuarios' %}" class="btn btn-secondary btn-block">Volver a la Lista de Usuarios</a>
                 </div> <!-- form-group// -->      
-                {{ form.email.errors }}
                 {{ form.non_field_errors }}
             </form>
         </article><!-- card-body.// -->

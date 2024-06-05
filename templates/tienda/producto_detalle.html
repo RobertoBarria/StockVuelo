@@ -3,40 +3,46 @@
 
 <section class="section-content padding-y bg">
     <div class="container">
-    
-    <div class="card">
-        <div class="row no-gutters">
-            <aside class="col-md-6">
-                <article class="gallery-wrap"> 
-                    <div class="img-big-wrap">
-                       <a href="#"><img src="{{ single_product.imagen.url }}"></a>
-                    </div>
-                </article>
-            </aside>
-            <main class="col-md-6 border-left">
-                <article class="content-body">
-                    <h2 class="title">{{ single_product.nombre_producto }}</h2>
-                    <div class="stock-wrap mt-2">
-                        {% if stock == 0 %}
-                            <span class="badge badge-danger" style="font-size: 1.2rem; padding: 0.5rem;">Sin stock</span>
-                        {% else %}
-                            <span class="badge {% if stock <= cantidad_minima %}badge-danger{% else %}badge-info{% endif %}" style="font-size: 1.2rem; padding: 0.5rem;">Stock: {{ stock }}</span>
-                        {% endif %}
-                    </div>
-                    <p>{{ single_product.descripcion }}</p>
-                    <hr>
-                    <div class="row">
-                        <!-- Aquí puedes añadir cualquier otra información relevante -->
-                    </div>
-                    <hr>
-                    <a href="#" class="btn  btn-primary"> <span class="text">Agregar al carrito</span> <i class="fas fa-shopping-cart"></i>  </a>
-                </article>
-            </main>
+        <div class="card">
+            <div class="row no-gutters">
+                <aside class="col-md-6">
+                    <article class="gallery-wrap">
+                        <div class="img-big-wrap">
+                           <a href="#"><img src="{{ single_product.imagen.url }}"></a>
+                        </div>
+                    </article>
+                </aside>
+                <main class="col-md-6 border-left">
+                    <article class="content-body">
+                        <h2 class="title">{{ single_product.nombre_producto }}</h2>
+                        <div class="stock-wrap mt-2">
+                            {% if stock == 0 %}
+                                <span class="badge badge-danger" style="font-size: 1.2rem; padding: 0.5rem;">Sin stock</span>
+                            {% else %}
+                                <span class="badge {% if stock <= cantidad_minima %}badge-danger{% else %}badge-info{% endif %}" style="font-size: 1.2rem; padding: 0.5rem;">Stock: {{ stock }}</span>
+                            {% endif %}
+                        </div>
+                        <p>{{ single_product.descripcion }}</p>
+                        <hr>
+                        <div class="row">
+                            <!-- Aquí puedes añadir cualquier otra información relevante -->
+                        </div>
+                        <hr>
+                        <form method="post" action="{% url 'agregar_a_orden' single_product.id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="cantidad">Cantidad:</label>
+                                <input type="number" name="cantidad" id="cantidad" min="1" max="{{ stock }}" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <span class="text">Agregar al carrito</span> <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </form>
+                    </article>
+                </main>
+            </div>
         </div>
-    </div>
-    
-    <br>
-    
+        <br>
     </div>
 </section>
 

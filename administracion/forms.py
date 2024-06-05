@@ -3,6 +3,7 @@ from categorias.models import Categoria
 from aviones.models import Avion
 from cuentas.models import Cuenta
 from tienda.models import Producto, StockAvion
+from django.core.exceptions import ValidationError
 
 
 
@@ -43,11 +44,10 @@ class MovimientoProductoForm(forms.Form):
 class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
-        fields = ['nombre_producto', 'descripcion', 'precio', 'imagen', 'categoria']
+        fields = ['nombre_producto', 'descripcion', 'imagen', 'categoria']
         widgets = {
             'nombre_producto': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
-            'precio': forms.NumberInput(attrs={'class': 'form-control'}),
             'imagen': forms.FileInput(attrs={'class': 'form-control-file'}),
             'categoria': forms.Select(attrs={'class': 'form-control'}),
         }
@@ -55,14 +55,18 @@ class ProductoForm(forms.ModelForm):
 class CategoriaForm(forms.ModelForm):
     class Meta:
         model = Categoria
-        fields = ['nombre_categoria','slug', 'descripcion', 'cat_imagen']
+        fields = ['nombre_categoria', 'descripcion', 'cat_imagen']
+        widgets = {
+            'nombre_categoria': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'cat_imagen': forms.FileInput(attrs={'class': 'form-control-file'}),
+        }
         
 class AvionForm(forms.ModelForm):
     class Meta:
         model = Avion
         fields = ['nombre', 'descripcion']
         
-
 
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={
@@ -78,6 +82,8 @@ class RegistrationForm(forms.ModelForm):
     class Meta:
         model = Cuenta
         fields = ['Nombre', 'Apellido', 'phone_number', 'email', 'password', 'avion', 'es_administrador', 'es_tripulante']
+        # Exclude username from the required fields
+        required = ['Nombre', 'Apellido', 'phone_number', 'email', 'password', 'confirmar_password', 'avion']
 
     def clean(self):
         cleaned_data = super(RegistrationForm, self).clean()
@@ -89,7 +95,29 @@ class RegistrationForm(forms.ModelForm):
         
         return cleaned_data
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if Cuenta.objects.filter(email=email).exists():
+            raise ValidationError("El email ya está en uso. Por favor, elija otro.")
+        return email
+
+    def save(self, commit=True):
+        user = super(RegistrationForm, self).save(commit=False)
+        user.set_password(self.cleaned_data['password'])
+        # Generate username automatically
+        user.username = f"{self.cleaned_data['Nombre']}_{self.cleaned_data['Apellido']}".lower()
+        if commit:
+            user.save()
+        return user
+    
+    
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = Cuenta
         fields = ['Nombre', 'Apellido', 'phone_number', 'email', 'avion', 'es_administrador', 'es_tripulante']
+        
+
+class EditarUsuarioForm(forms.ModelForm):
+    class Meta:
+        model = Cuenta
+        fields = ['Nombre', 'Apellido', 'email', 'phone_number', 'avion', 'es_administrador', 'es_tripulante', 'is_active']

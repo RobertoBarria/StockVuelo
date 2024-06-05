@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="section-content padding-y bg">
+    <div class="container">
+        <h2>Crear Orden</h2>
+        <form method="post" action="{% url 'agregar_a_orden' producto.id %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="producto">Producto:</label>
+                <select name="producto" id="producto" class="form-control" required>
+                    {% for producto in productos %}
+                        <option value="{{ producto.id }}">{{ producto.nombre_producto }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" name="cantidad" id="cantidad" min="1" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar a la Orden</button>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

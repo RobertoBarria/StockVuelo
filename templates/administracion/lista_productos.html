@@ -12,7 +12,6 @@
                         <tr>
                             <th>Nombre</th>
                             <th>Descripción</th>
-                            <th>Precio</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -21,10 +20,9 @@
                             <tr>
                                 <td>{{ producto.nombre_producto }}</td>
                                 <td>{{ producto.descripcion }}</td>
-                                <td>{{ producto.precio }}</td>
                                 <td class="d-flex">
                                     <a href="{% url 'editar_producto' producto.pk %}" class="btn btn-primary btn-sm mr-1">Editar</a>
-                                    <a href="{% url 'eliminar_producto' producto.pk %}" class="btn btn-danger btn-sm mr-1">Eliminar</a>
+                                    <a href="{% url 'eliminar_producto_base' producto.pk %}" class="btn btn-danger btn-sm mr-1">Eliminar</a>
                                     <a href="{% url 'asignar_stock' producto.pk %}" class="btn btn-warning btn-sm mr-1">Carga</a>
                                     <a href="{% url 'movimiento_producto' producto.pk %}" class="btn btn-info btn-sm">Movimiento</a>
                                 </td>
@@ -32,7 +30,7 @@
                         {% endfor %}
                     </tbody>
                 </table>
-                
+
                 <!-- Paginación -->
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">

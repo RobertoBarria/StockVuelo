@@ -71,6 +71,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'tienda.context_processors.cantidad_productos_en_orden',
+                'tienda.context_processors.categorias_context',
             ],
         },
     },
@@ -79,6 +81,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'projectvuelo.wsgi.application'
 
 AUTH_USER_MODEL ="cuentas.Cuenta"
+
+LOGIN_URL = '/cuentas/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/cuentas/login/'
+
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

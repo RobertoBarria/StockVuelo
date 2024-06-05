@@ -8,6 +8,11 @@ class LoginForm(AuthenticationForm):
     class Meta:
         fields = ['username', 'password', 'avion']
 
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+        self.fields['username'].label = "Correo electrónico"
+        self.fields['password'].label = "Contraseña"
+
 class CustomAuthenticationForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super(CustomAuthenticationForm, self).__init__(*args, **kwargs)

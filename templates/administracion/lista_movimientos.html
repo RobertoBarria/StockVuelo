@@ -8,6 +8,9 @@
                 <h5 class="display-12 text-left font-weight-bold" style="color: navy;">Movimientos de Productos</h5>
                 <hr class="my-2" style="border-top: 2px solid navy;">
             </div>
+            <div class="col text-right">
+                <a href="{% url 'exportar_movimientos_excel' %}" class="btn btn-success">Exportar a Excel</a>
+            </div>
         </div>
     </div>
 </section>
@@ -20,9 +23,10 @@
                     <thead>
                         <tr>
                             <th>Producto</th>
-                            <th>Avión Origen</th>
-                            <th>Avión Destino</th>
+                            <th>Avión</th>
                             <th>Cantidad</th>
+                            <th>Tipo de Movimiento</th>
+                            <th>Observación</th>
                             <th>Fecha</th>
                             <th>Usuario</th>
                         </tr>
@@ -31,15 +35,55 @@
                         {% for movimiento in movimientos %}
                         <tr>
                             <td>{{ movimiento.producto.nombre_producto }}</td>
-                            <td>{{ movimiento.avion_origen.nombre }}</td>
-                            <td>{{ movimiento.avion_destino.nombre }}</td>
+                            <td>{{ movimiento.avion.nombre }}</td>
                             <td>{{ movimiento.cantidad }}</td>
+                            <td>{{ movimiento.get_tipo_movimiento_display }}</td>
+                            <td>{{ movimiento.observacion }}</td>
                             <td>{{ movimiento.fecha_movimiento }}</td>
                             <td>{{ movimiento.usuario.username }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+
+                <!-- Paginación -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if movimientos.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ movimientos.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% for num in movimientos.paginator.page_range %}
+                            {% if movimientos.number == num %}
+                                <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                            {% elif num > movimientos.number|add:'-3' and num < movimientos.number|add:'3' %}
+                                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if movimientos.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ movimientos.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
             </div>
         </div>
         <a href="{% url 'administracion' %}" class="btn btn-secondary">Volver a Administración</a>

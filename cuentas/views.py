@@ -8,7 +8,6 @@ from .forms import CustomAuthenticationForm
 
 class LoginView(auth_views.LoginView):
     authentication_form = CustomAuthenticationForm
-    
 
 User = get_user_model()
 
@@ -22,13 +21,15 @@ def login(request):
 
             user = auth.authenticate(email=email, password=password)
             if user is not None:
-                if user.avion == avion:
+                if not user.is_active:
+                    messages.error(request, 'La cuenta está inactiva.')
+                elif user.avion != avion:
+                    messages.error(request, 'El avión seleccionado no corresponde con el usuario.')
+                else:
                     auth.login(request, user)
                     request.session['avion_id'] = avion.id
                     messages.success(request, 'Acceso correcto.')
-                    return redirect('home')
-                else:
-                    messages.error(request, 'El avión seleccionado no corresponde con el usuario.')
+                    return redirect('tienda')
             else:
                 messages.error(request, 'Las credenciales son incorrectas.')
         else:

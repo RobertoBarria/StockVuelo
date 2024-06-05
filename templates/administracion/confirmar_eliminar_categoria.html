@@ -1,21 +1,22 @@
 {% extends 'administracion/administracion.html' %}
 
 {% block main_content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmar Eliminar Categoría</title>
-</head>
-<body>
-    <h1>Confirmar Eliminar Categoría</h1>
-    <p>¿Estás seguro de que deseas eliminar la categoría "{{ categoria.nombre_categoria }}"?</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Eliminar</button>
-    </form>
-</body>
-</html>
+<section class="section-content padding-x">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Eliminar Categoría</h2>
+                <p>¿Estás seguro que deseas eliminar la categoría <strong>{{ categoria.nombre_categoria }}</strong>?</p>
+                
+                <p>Al eliminar esta categoría, se eliminarán todos los productos asociados a ella.</p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                    <a href="{% url 'lista_categorias' %}" class="btn btn-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
